@@ -1,0 +1,240 @@
+{
+  "dependencies": [
+    {
+      "type": "FILE",
+      "url": "C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\ahlsell"
+    },
+    {
+      "type": "FILE",
+      "url": "C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\tess"
+    },
+    {
+      "type": "FILE",
+      "url": "C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\agresso"
+    },
+    {
+      "type": "FILE",
+      "url": "C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed"
+    },
+    {
+      "type": "FILE",
+      "url": "C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import"
+    },
+    {
+      "type": "JDBC",
+      "url": "jdbc:h2:tcp://localhost:53840/mem:agresso"
+    },
+    {
+      "type": "SFTP",
+      "url": "joe@localhost:53842/fetch/ahlsell"
+    },
+    {
+      "type": "SFTP",
+      "url": "joe@localhost:53842/fetch/elektroskandia"
+    },
+    {
+      "type": "SFTP",
+      "url": "joe@localhost:53842/put/ahlsell"
+    },
+    {
+      "type": "SFTP",
+      "url": "joe@localhost:53842/put/elektroskandia"
+    },
+    {
+      "type": "SMTP",
+      "url": ""
+    }
+  ],
+  "routes": [
+    {
+      "inputs": [
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import?readLock=markerFile&delete=true"
+        }
+      ],
+      "route": [
+        {
+          "label": "onException[[class no.nte.grossistimport.model.AgressoDbNotReached]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "onException[[class java.lang.Exception]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "setBody[{}]",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "Processor@0x1bfa3cfc",
+          "next": []
+        },
+        {
+          "label": "Processor@0x76c16c2b",
+          "next": []
+        },
+        {
+          "label": "Processor@0x69254534",
+          "next": []
+        },
+        {
+          "label": "Processor@0x7a3ad539",
+          "next": []
+        },
+        {
+          "label": "Processor@0x306d0b5e",
+          "next": []
+        },
+        {
+          "label": "Processor@0x4db0894c",
+          "next": []
+        },
+        {
+          "label": "Processor@0xeff792b",
+          "next": []
+        },
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\agresso",
+          "next": []
+        },
+        {
+          "label": "Processor@0x2240e6d0",
+          "next": []
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "label": "sftp:joe@localhost:53842/fetch/ahlsell?knownHostsFile=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\test-classes\\known_hosts&localWorkDirectory=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\work&delete=true&strictHostKeyChecking=no&jschLoggingLevel=WARN&readLock=markerFile&password=joe"
+        }
+      ],
+      "route": [
+        {
+          "label": "onException[[class java.lang.Exception]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+          "next": []
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\ahlsell?readLock=markerFile&delete=true"
+        }
+      ],
+      "route": [
+        {
+          "label": "onException[[class java.lang.Exception]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "filter[{no.nte.grossistimport.GrossistImportPlugin$$Lambda$95/684936107@5b64d32c}]",
+          "next": [
+            {
+              "label": "sftp:joe@localhost:53842/put/ahlsell?knownHostsFile=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\test-classes\\known_hosts&localWorkDirectory=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\work&delete=true&strictHostKeyChecking=no&jschLoggingLevel=WARN&readLock=markerFile&password=joe",
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "label": "sftp:joe@localhost:53842/fetch/elektroskandia?knownHostsFile=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\test-classes\\known_hosts&localWorkDirectory=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\work&delete=true&strictHostKeyChecking=no&jschLoggingLevel=WARN&readLock=markerFile&password=joe"
+        }
+      ],
+      "route": [
+        {
+          "label": "onException[[class java.lang.Exception]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+          "next": []
+        }
+      ]
+    },
+    {
+      "inputs": [
+        {
+          "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\tess?readLock=markerFile&delete=true"
+        }
+      ],
+      "route": [
+        {
+          "label": "onException[[class java.lang.Exception]]",
+          "next": [
+            {
+              "label": "Processor@0x3d05d138",
+              "next": []
+            },
+            {
+              "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed?fileName=${file:onlyname.noext}-${exchangeId}.${file:ext}",
+              "next": []
+            }
+          ]
+        },
+        {
+          "label": "filter[{no.nte.grossistimport.GrossistImportPlugin$$Lambda$95/684936107@5b64d32c}]",
+          "next": [
+            {
+              "label": "sftp:joe@localhost:53842/put/elektroskandia?knownHostsFile=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\test-classes\\known_hosts&localWorkDirectory=C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\work&delete=true&strictHostKeyChecking=no&jschLoggingLevel=WARN&readLock=markerFile&password=joe",
+              "next": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resources": []
+}

@@ -1,0 +1,46 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+        <bundle-instructions>
+            <Import-Package>org.kantega.documenter,org.kantega.documenter.api,*;resolution:=optional</Import-Package>
+            <Export-Package>org.kantega.documenter,org.kantega.documenter.api</Export-Package>
+        </bundle-instructions>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="documenter"/>
+
+    <!-- add our web resources -->
+    <web-resource key="documenter-resources" name="Documenter Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+
+        <resource type="download" name="documenter.css" location="/css/documenter.css"/>
+        <resource type="download" name="cytoscape.js" location="/js/cytoscape.js"/>
+        <resource type="download" name="documenter.js" location="/js/documenter.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <!--<context>atl.general</context>-->
+    </web-resource>
+
+    <!-- import from the product container -->
+    <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
+
+    <xhtml-macro name="reststop-plugin-documentation" class="org.kantega.documenter.PluginDocumenterMacro" key="pluginDocumenterMacro">
+        <description>Macro for displaying Reststop plugin documentation</description>
+        <parameters>
+            <parameter name="mavenCoordinates" type="string">
+                <option key="showNameInPlaceholder" value="false" />
+                <option key="showValueInPlaceholder" value="true" />
+            </parameter>
+        </parameters>
+    </xhtml-macro>
+
+    <component key="docLocator" class="org.kantega.documenter.MavenDocumentationLocator">
+        <description>Locates plugin documentation for Reststop plugins in maven repo</description>
+    </component>
+
+</atlassian-plugin>

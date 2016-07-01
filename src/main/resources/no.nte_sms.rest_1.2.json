@@ -1,0 +1,127 @@
+{
+  "pluginDescription": "\n  Plugin som tilbyr sending av sms via Trio, og henting av svar.\n ",
+  "dependencies": [
+    {
+      "type": "JDBC",
+      "url": "jdbc:h2:tcp://localhost:58356/mem:sms"
+    }
+  ],
+  "routes": [],
+  "resources": [
+    {
+      "path": "/sms",
+      "rolesAllowed": [
+        "\"APISMS\""
+      ],
+      "documentation": "\n  Sms API for Ã¥ sende sms og motta svarene. Man kan ogsÃ¥ hente ut sms man har sent.\n ",
+      "methodDocs": [
+        {
+          "path": "/sms",
+          "method": "POST",
+          "rolesAllowed": [],
+          "documentation": "\n      Dette er javascript som skal vises i dokumentasjonen\n      @param req Inkommende request for Ã¥ sende en sms.\n      @return Response som indikerer hvordan operasjonen forlÃ¸p pÃ¥ httpstatus-vis.\n     ",
+          "parameters": [
+            "SendSmsRequest req"
+          ],
+          "exchangeDocumentations": [
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Content-Length=[116], Content-Type=[application/json]}",
+                "body": "{\"phonenumber\":\"12345678\",\"meldingstekst\":\"\",\"sentstamp\":1464605117724,\"correlationId\":\"jalla\",\"customerId\":\"jalla\"}\n"
+              },
+              "responseDocumentation": {
+                "headers": "{}",
+                "body": "",
+                "status": "400"
+              }
+            },
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Content-Length=[116], Content-Type=[application/json]}",
+                "body": "{\"phonenumber\":\"00012347\",\"meldingstekst\":\"Hei nei\",\"sentstamp\":1464605114976,\"correlationId\":\"c\",\"customerId\":\"33\"}\n"
+              },
+              "responseDocumentation": {
+                "headers": "{Content-Type=[text/html]}",
+                "body": "\n",
+                "status": "200"
+              }
+            },
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Content-Length=[118], Content-Type=[application/json]}",
+                "body": "{\"phonenumber\":\"00012346\",\"meldingstekst\":\"Hei igjen\",\"sentstamp\":1464605114977,\"correlationId\":\"b\",\"customerId\":\"22\"}\n"
+              },
+              "responseDocumentation": {
+                "headers": "{Content-Type=[text/html]}",
+                "body": "\n",
+                "status": "200"
+              }
+            },
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Content-Length=[116], Content-Type=[application/json]}",
+                "body": "{\"phonenumber\":\"00012345\",\"meldingstekst\":\"Hei hei\",\"sentstamp\":1464605114978,\"correlationId\":\"a\",\"customerId\":\"11\"}\n"
+              },
+              "responseDocumentation": {
+                "headers": "{Content-Type=[text/html]}",
+                "body": "\n",
+                "status": "200"
+              }
+            },
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Content-Length=[125], Content-Type=[application/json]}",
+                "body": "{\"phonenumber\":\"1234567\",\"meldingstekst\":\"Hei og hå\",\"sentstamp\":1464605113927,\"correlationId\":\"blæh\",\"customerId\":\"blæh\"}\n"
+              },
+              "responseDocumentation": {
+                "headers": "{}",
+                "body": "",
+                "status": "400"
+              }
+            }
+          ]
+        },
+        {
+          "path": "/sms",
+          "method": "GET",
+          "rolesAllowed": [],
+          "documentation": "\n      Henter sente sms.\n      @param from\n      @param to\n      @return\n     ",
+          "parameters": [
+            "@QueryParam(\"from\") long from",
+            "@QueryParam(\"to\") long to"
+          ],
+          "exchangeDocumentations": []
+        },
+        {
+          "path": "/sms/reply",
+          "method": "GET",
+          "rolesAllowed": [],
+          "documentation": "\n      Henter svar fra databasen\n      @param from\n      @param to\n      @return\n     ",
+          "parameters": [
+            "@QueryParam(\"from\") long from",
+            "@QueryParam(\"to\") long to"
+          ],
+          "exchangeDocumentations": [
+            {
+              "requestDocumentation": {
+                "url": "http://localhost:58351/sms/reply",
+                "headers": "{Authorization=[Basic am9lOmpvZQ==], User-Agent=[Jersey/2.22.1 (HttpUrlConnection 1.8.0_74)], Connection=[keep-alive], Host=[localhost:58351], Accept=[text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2]}",
+                "body": ""
+              },
+              "responseDocumentation": {
+                "headers": "{Content-Type=[application/json]}",
+                "body": "{\"replies\":[{\"id\":1,\"customerId\":\"11\",\"correlationId\":\"a\",\"phonenumber\":\"00012345\",\"sentstamp\":1464605114978,\"replystamp\":1464605114978,\"text\":\"Hei hei\",\"replytext\":\"Dette er et svar. \\n\\n\\nHei hei\"},{\"id\":2,\"customerId\":\"22\",\"correlationId\":\"b\",\"phonenumber\":\"00012346\",\"sentstamp\":1464605114977,\"replystamp\":1464605114977,\"text\":\"Hei igjen\",\"replytext\":\"Dette er et svar. \\n\\n\\nHei igjen\"},{\"id\":3,\"customerId\":\"33\",\"correlationId\":\"c\",\"phonenumber\":\"00012347\",\"sentstamp\":1464605114976,\"replystamp\":1464605114976,\"text\":\"Hei nei\",\"replytext\":\"Dette er et svar. \\n\\n\\nHei nei\"}]}\n",
+                "status": "200"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

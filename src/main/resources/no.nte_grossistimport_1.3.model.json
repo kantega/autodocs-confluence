@@ -1,0 +1,548 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "7e819ba8-daf3-452c-a5b6-00b4d31e6ac6",
+        "label": "sftp:joe@localhost:59704/put/elektroskandia",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "93d183ed-65ab-4163-b044-c784706c380e",
+        "label": "filter[{no.nte.grossistimport.GrossistImportPlugin$$Lambda$95/1924164689@327751eb}]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "a8b4fa21-db62-4ab5-a476-9ac7dac092ed",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "32d439a2-46da-440f-80c0-03e4c19b6b69",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "09632c3f-4d42-487e-afbd-2422c1a05bff",
+        "label": "onException[[class java.lang.Exception]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "8ebb6937-fc99-4440-b400-e4aeffea3231",
+        "label": "fetch",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "c8bbc66c-7c63-496e-8792-56d6330327c7",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\tess",
+        "nodeType": "event"
+      }
+    },
+    {
+      "data": {
+        "id": "8527bc3e-bce6-4073-8759-b521eaca635b",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "adcd09bf-6ff9-4be7-b6e3-0c737ce8d8b5",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "d3dc7f64-9fe8-4eb2-a9b7-3e73be8efc3a",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "5774b676-5ee6-4b21-b50a-a244f50270a2",
+        "label": "onException[[class java.lang.Exception]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "5e692c1d-bfe9-4487-a69d-5feb14c5ac93",
+        "label": "fetch",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "2f687181-d13b-4c9d-a3d5-45ca43726a04",
+        "label": "sftp:joe@localhost:59704/fetch/elektroskandia",
+        "nodeType": "event"
+      }
+    },
+    {
+      "data": {
+        "id": "9a9ec9fe-3983-4f32-a82e-8be7e6d01607",
+        "label": "sftp:joe@localhost:59704/put/ahlsell",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "2e857b05-515f-4ded-a41b-689b2d81027e",
+        "label": "filter[{no.nte.grossistimport.GrossistImportPlugin$$Lambda$95/1924164689@327751eb}]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "b245ad17-1835-411b-9a1e-b927743c8d93",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "de7da015-cc9b-4f78-b736-21cd7a8ebc4a",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "3b3864fb-2b23-479f-997a-3407a602122d",
+        "label": "onException[[class java.lang.Exception]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "89b0ad2c-d8fc-4dc8-a18d-bd2e7ce342e3",
+        "label": "fetch",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "1efee78d-d88a-4a61-9a60-dbede59e0d82",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\export\\ahlsell",
+        "nodeType": "event"
+      }
+    },
+    {
+      "data": {
+        "id": "181e7d59-c5cc-49db-99a0-ac5b050fd61a",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "abbccd80-f2f0-4d4c-a4ea-9bb30fe09bfd",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "f59c9991-6c93-4d97-b153-3096d5b82679",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "2973f503-45e3-49a2-8750-545084ee53e3",
+        "label": "onException[[class java.lang.Exception]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "fb350cc7-2dce-4b26-b04d-6098f0d0c419",
+        "label": "fetch",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "1554e51a-82a7-47f3-9e86-47be6d0f1ad0",
+        "label": "sftp:joe@localhost:59704/fetch/ahlsell",
+        "nodeType": "event"
+      }
+    },
+    {
+      "data": {
+        "id": "bb3fc02f-f585-4657-8078-0814c42e3c20",
+        "label": "Processor@0x6a8695f8",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "2d148381-0928-468c-8c6d-b318b86331db",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\agresso",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "1d0c8d16-1fa1-476e-ace6-5fef18fa199f",
+        "label": "Processor@0x1c5f40b6",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "a62b9931-b202-4995-9199-dfa4a4cd4fb4",
+        "label": "Processor@0x33f13380",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "e173f335-8d62-44c1-a378-eab42a00460d",
+        "label": "Processor@0x1f08913d",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "f7677566-ee39-486d-943b-ec1b8b1d0aa2",
+        "label": "Processor@0x626299bc",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "d4f365c5-49dc-43c3-8b61-38f5708c1b22",
+        "label": "Processor@0xf2414bc",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "ae2c49cf-282e-4e4d-97ac-8a90b401379c",
+        "label": "Processor@0xd743428",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "5c6da2bb-94e1-479b-9a72-0d3efa9585df",
+        "label": "Processor@0x3209e3de",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "c062a4b2-7062-4964-84fa-61b66810365e",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "caccb4b1-42fc-41f6-833e-4291f90d0416",
+        "label": "setBody[{}]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "5d38169e-4279-49e5-830b-986a9f816690",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "e385949b-0d7e-4c47-8ee3-f5e0f96f8704",
+        "label": "onException[[class java.lang.Exception]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "3b8785fd-8bcb-41e2-a7e5-95f172e44748",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\failed",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "40112284-4270-4af3-bb95-94e71f996dc4",
+        "label": "Processor@0x60d1bf43",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "ac0e2310-89ad-49a2-b8ec-03b808183080",
+        "label": "onException[[class no.nte.grossistimport.model.AgressoDbNotReached]]",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "label": "fetch",
+        "nodeType": "task"
+      }
+    },
+    {
+      "data": {
+        "id": "3a2c4275-2f64-4ae0-9c31-33a9a094eeba",
+        "label": "file:C:\\workspace\\nettyrepo\\projects\\NTENett\\GrossistImport\\trunk\\target\\tmp\\import",
+        "nodeType": "event"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "93d183ed-65ab-4163-b044-c784706c380e",
+        "target": "7e819ba8-daf3-452c-a5b6-00b4d31e6ac6"
+      }
+    },
+    {
+      "data": {
+        "source": "8ebb6937-fc99-4440-b400-e4aeffea3231",
+        "target": "93d183ed-65ab-4163-b044-c784706c380e"
+      }
+    },
+    {
+      "data": {
+        "source": "09632c3f-4d42-487e-afbd-2422c1a05bff",
+        "target": "a8b4fa21-db62-4ab5-a476-9ac7dac092ed"
+      }
+    },
+    {
+      "data": {
+        "source": "09632c3f-4d42-487e-afbd-2422c1a05bff",
+        "target": "32d439a2-46da-440f-80c0-03e4c19b6b69"
+      }
+    },
+    {
+      "data": {
+        "source": "8ebb6937-fc99-4440-b400-e4aeffea3231",
+        "target": "09632c3f-4d42-487e-afbd-2422c1a05bff"
+      }
+    },
+    {
+      "data": {
+        "source": "c8bbc66c-7c63-496e-8792-56d6330327c7",
+        "target": "8ebb6937-fc99-4440-b400-e4aeffea3231"
+      }
+    },
+    {
+      "data": {
+        "source": "5e692c1d-bfe9-4487-a69d-5feb14c5ac93",
+        "target": "8527bc3e-bce6-4073-8759-b521eaca635b"
+      }
+    },
+    {
+      "data": {
+        "source": "5774b676-5ee6-4b21-b50a-a244f50270a2",
+        "target": "adcd09bf-6ff9-4be7-b6e3-0c737ce8d8b5"
+      }
+    },
+    {
+      "data": {
+        "source": "5774b676-5ee6-4b21-b50a-a244f50270a2",
+        "target": "d3dc7f64-9fe8-4eb2-a9b7-3e73be8efc3a"
+      }
+    },
+    {
+      "data": {
+        "source": "5e692c1d-bfe9-4487-a69d-5feb14c5ac93",
+        "target": "5774b676-5ee6-4b21-b50a-a244f50270a2"
+      }
+    },
+    {
+      "data": {
+        "source": "2f687181-d13b-4c9d-a3d5-45ca43726a04",
+        "target": "5e692c1d-bfe9-4487-a69d-5feb14c5ac93"
+      }
+    },
+    {
+      "data": {
+        "source": "2e857b05-515f-4ded-a41b-689b2d81027e",
+        "target": "9a9ec9fe-3983-4f32-a82e-8be7e6d01607"
+      }
+    },
+    {
+      "data": {
+        "source": "89b0ad2c-d8fc-4dc8-a18d-bd2e7ce342e3",
+        "target": "2e857b05-515f-4ded-a41b-689b2d81027e"
+      }
+    },
+    {
+      "data": {
+        "source": "3b3864fb-2b23-479f-997a-3407a602122d",
+        "target": "b245ad17-1835-411b-9a1e-b927743c8d93"
+      }
+    },
+    {
+      "data": {
+        "source": "3b3864fb-2b23-479f-997a-3407a602122d",
+        "target": "de7da015-cc9b-4f78-b736-21cd7a8ebc4a"
+      }
+    },
+    {
+      "data": {
+        "source": "89b0ad2c-d8fc-4dc8-a18d-bd2e7ce342e3",
+        "target": "3b3864fb-2b23-479f-997a-3407a602122d"
+      }
+    },
+    {
+      "data": {
+        "source": "1efee78d-d88a-4a61-9a60-dbede59e0d82",
+        "target": "89b0ad2c-d8fc-4dc8-a18d-bd2e7ce342e3"
+      }
+    },
+    {
+      "data": {
+        "source": "fb350cc7-2dce-4b26-b04d-6098f0d0c419",
+        "target": "181e7d59-c5cc-49db-99a0-ac5b050fd61a"
+      }
+    },
+    {
+      "data": {
+        "source": "2973f503-45e3-49a2-8750-545084ee53e3",
+        "target": "abbccd80-f2f0-4d4c-a4ea-9bb30fe09bfd"
+      }
+    },
+    {
+      "data": {
+        "source": "2973f503-45e3-49a2-8750-545084ee53e3",
+        "target": "f59c9991-6c93-4d97-b153-3096d5b82679"
+      }
+    },
+    {
+      "data": {
+        "source": "fb350cc7-2dce-4b26-b04d-6098f0d0c419",
+        "target": "2973f503-45e3-49a2-8750-545084ee53e3"
+      }
+    },
+    {
+      "data": {
+        "source": "1554e51a-82a7-47f3-9e86-47be6d0f1ad0",
+        "target": "fb350cc7-2dce-4b26-b04d-6098f0d0c419"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "bb3fc02f-f585-4657-8078-0814c42e3c20"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "2d148381-0928-468c-8c6d-b318b86331db"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "1d0c8d16-1fa1-476e-ace6-5fef18fa199f"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "a62b9931-b202-4995-9199-dfa4a4cd4fb4"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "e173f335-8d62-44c1-a378-eab42a00460d"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "f7677566-ee39-486d-943b-ec1b8b1d0aa2"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "d4f365c5-49dc-43c3-8b61-38f5708c1b22"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "ae2c49cf-282e-4e4d-97ac-8a90b401379c"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "5c6da2bb-94e1-479b-9a72-0d3efa9585df"
+      }
+    },
+    {
+      "data": {
+        "source": "e385949b-0d7e-4c47-8ee3-f5e0f96f8704",
+        "target": "c062a4b2-7062-4964-84fa-61b66810365e"
+      }
+    },
+    {
+      "data": {
+        "source": "e385949b-0d7e-4c47-8ee3-f5e0f96f8704",
+        "target": "caccb4b1-42fc-41f6-833e-4291f90d0416"
+      }
+    },
+    {
+      "data": {
+        "source": "e385949b-0d7e-4c47-8ee3-f5e0f96f8704",
+        "target": "5d38169e-4279-49e5-830b-986a9f816690"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "e385949b-0d7e-4c47-8ee3-f5e0f96f8704"
+      }
+    },
+    {
+      "data": {
+        "source": "ac0e2310-89ad-49a2-b8ec-03b808183080",
+        "target": "3b8785fd-8bcb-41e2-a7e5-95f172e44748"
+      }
+    },
+    {
+      "data": {
+        "source": "ac0e2310-89ad-49a2-b8ec-03b808183080",
+        "target": "40112284-4270-4af3-bb95-94e71f996dc4"
+      }
+    },
+    {
+      "data": {
+        "source": "b0bd8e73-1e40-486b-8493-1de5259fc177",
+        "target": "ac0e2310-89ad-49a2-b8ec-03b808183080"
+      }
+    },
+    {
+      "data": {
+        "source": "3a2c4275-2f64-4ae0-9c31-33a9a094eeba",
+        "target": "b0bd8e73-1e40-486b-8493-1de5259fc177"
+      }
+    }
+  ]
+}
