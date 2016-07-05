@@ -63,9 +63,6 @@ public class HtmlTag implements HtmlElem {
         }
     }
 
-
-
-
     private static LazyString renderAttribs(List<HtmlAttrib> attribs) {
         if (attribs.isEmpty()) { return LazyString.empty; }
         HtmlAttrib head = attribs.head();

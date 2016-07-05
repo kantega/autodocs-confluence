@@ -23,7 +23,6 @@
         <resource type="download" name="documenter.js" location="/js/documenter.js"/>
         <resource type="download" name="images/" location="/images"/>
 
-        <!--<context>atl.general</context>-->
     </web-resource>
 
     <!-- import from the product container -->

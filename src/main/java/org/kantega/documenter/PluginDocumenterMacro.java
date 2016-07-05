@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static fj.data.List.iterableList;
+import static fj.data.Option.*;
 import static fj.data.Option.fromNull;
 import static org.kantega.documenter.Utils.*;
 import static org.kantega.documenter.html.FragmentElem.fragment;
@@ -69,7 +70,8 @@ public class PluginDocumenterMacro implements Macro {
                 return
                   maybeDoc.validation(
                     fail ->
-                      P.body(EM.b(String.format("Documentation for the handler %s could not be loaded: %s",coordinates,fail))),
+                      P.body(EM.b(String.format("Documentation for the handler %s could not be loaded: %s", coordinates, fail))),
+
                     docs ->
                       fragment(
                         H1.b(coordinates),
@@ -85,14 +87,14 @@ public class PluginDocumenterMacro implements Macro {
                                 f -> TR.b(
                                   TD.a("class", "confluenceTd").b(f.name),
                                   TD.a("class", "confluenceTd").b(f.version),
-                                  TD.a("class", "confluenceTd").b(f.failMsg)),
+                                  TD.a("class", "confluenceTd").b(EM.b(f.failMsg))),
                                 d ->
                                   TR.b(
                                     TD.a("class", "confluenceTd").b(A.a("href", "#" + d.getId()).b(d.getLabel())),
                                     TD.a("class", "confluenceTd").b(d.getVersion()),
                                     TD.a("class", "confluenceTd").b(fromNull(d.documentRoot.get("pluginDescription")).map(JsonNode::asText).orSome("No desc"))))))),
 
-                        repeat(Option.somes(docs.map(e -> e.right().toOption())), d ->
+                        repeat(somes(docs.map(e -> e.right().toOption())), d ->
                           fragment(
 
                             H1.a("id", d.getId()).b(d.getLabel()),
@@ -104,12 +106,12 @@ public class PluginDocumenterMacro implements Macro {
                             repeat(asList(d.documentRoot.get("dependencies")), node ->
                               P.b(node.get("type").asText() + " " + node.get("url").asText())),
 
-                            renderIf(fromNull(d.documentRoot.get("model")).isSome(),
+                            renderIf(fromNull(d.documentRoot.get("model")).bind(n -> fromNull(n.get("nodes"))).isSome(),
                               fragment(
                                 H3.b("Flyt"),
                                 DIV.a("id", "flyt-" + d.getSelectorId()).a("class", "model").a("style", "height:600px;width:100%;"),
                                 SCRIPT.b(
-                                  "var model =JSON.parse(\"" + getEscaped(d.documentRoot.get("model").asText()) + "\");\n" +
+                                  "var model =JSON.parse(\"" + getEscaped(d.documentRoot.get("model").toString()) + "\");\n" +
                                     "window.cyto('#flyt-" + d.getSelectorId() + "',model);\n"))),
 
                             renderIf(asList(d.documentRoot.get("resources")).isNotEmpty(), H3.b("Rest API")),
@@ -140,7 +142,8 @@ public class PluginDocumenterMacro implements Macro {
                                             fromNull(exDoc.get("responseDocumentation").get("status")).map(JsonNode::asText).orSome("N/A") +
                                             "|linenumbers=false|language=none|firstline=0001|collapse=false}\n" +
                                             prettyPrint(mapper, exDoc.get("responseDocumentation").get("body").asText()).orSome("empty") +
-                                            "{code}", conversionContext))))))))))))).pretty();
+                                            "{code}", conversionContext))))))))))))
+                  ).pretty();
 
             })
             .orElse(EM.b("No coordinates provided").pretty());
@@ -166,7 +169,6 @@ public class PluginDocumenterMacro implements Macro {
         catch (XMLStreamException | XhtmlException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static String getEscaped(String json) {
