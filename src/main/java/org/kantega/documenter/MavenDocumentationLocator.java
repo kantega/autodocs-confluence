@@ -196,8 +196,8 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
             artifactRequest.setArtifact(download);
             artifactRequest.setRepositories(newRepositories(system, session));
             ArtifactResult artifactResult = system.resolveArtifact(session, artifactRequest);
-            String xml = new String(Files.readAllBytes(artifactResult.getArtifact().getFile().toPath()), Charset.forName("UTF-8"));
-            return xml;
+            String content = new String(Files.readAllBytes(artifactResult.getArtifact().getFile().toPath()), Charset.forName("UTF-8"));
+            return content;
         };
     }
 
