@@ -35,6 +35,12 @@
                 <option key="showNameInPlaceholder" value="false" />
                 <option key="showValueInPlaceholder" value="true" />
             </parameter>
+            <parameter name="display" type="enum" required="true" default="Table">
+                <option key="showNameInPlaceholder" value="false" />
+                <option key="showValueInPlaceholder" value="true"/>
+                <value name="Table" />
+                <value name="Full"/>
+            </parameter>
         </parameters>
     </xhtml-macro>
 
