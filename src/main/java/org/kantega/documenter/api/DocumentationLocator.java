@@ -6,6 +6,6 @@ import fj.data.Validation;
 
 public interface DocumentationLocator {
 
-     Validation<String, List<Either<FailedPluginDoc,PluginDoc>>> getDocumentationFor(String mavenCoordinates);
+     Validation<String, List<Either<FailedHandlerDoc,HandlerDoc>>> getDocumentationFor(String mavenCoordinates);
 
 }

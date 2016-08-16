@@ -3,6 +3,7 @@ package org.kantega.documenter;
 import fj.Try;
 import fj.data.Either;
 import fj.data.List;
+import fj.data.Option;
 import fj.data.Validation;
 import fj.function.Try0;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
@@ -30,7 +31,9 @@ import org.eclipse.aether.transfer.TransferCancelledException;
 import org.eclipse.aether.transfer.TransferEvent;
 import org.eclipse.aether.transport.file.FileTransporterFactory;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
+import org.kantega.documenter.api.FailedHandlerDoc;
 import org.kantega.documenter.api.FailedPluginDoc;
+import org.kantega.documenter.api.HandlerDoc;
 import org.kantega.documenter.api.PluginDoc;
 import org.xml.sax.InputSource;
 
@@ -45,13 +48,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class MavenDocumentationLocator implements org.kantega.documenter.api.DocumentationLocator {
-
-
-    private final Map<String, List<Either<FailedPluginDoc, PluginDoc>>> cache =
-      new HashMap<>();
 
     private final ObjectMapper mapper;
 
@@ -60,34 +60,27 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
     }
 
     @Override
-    public Validation<String, List<Either<FailedPluginDoc, PluginDoc>>> getDocumentationFor(String mavenCoordinates) {
+    public Validation<String, List<Either<FailedHandlerDoc, HandlerDoc>>> getDocumentationFor(String mavenCoordinates) {
+        return MavenCoordinates.fromString(mavenCoordinates, "", "plugins").map(coordinatesList ->
+          coordinatesList.map(coordinates -> {
 
-        return MavenCoordinates.fromString(mavenCoordinates, "", "plugins").bind(coordinates -> {
-              try {
-                  resolve(coordinates);
-              }
-              catch (Exception e) {
-                  e.printStackTrace();
-              }
+              Validation<String, String> pluginLabel =
+                locateLabel(coordinates).map(mayebLabel -> mayebLabel.orSome(coordinates.artifactId)).f().map(Throwable::getMessage);
 
-              if (cache.containsKey(mavenCoordinates)) {
-                  return Validation.success(cache.get(mavenCoordinates));
-              } else {
+              Validation<String, List<Either<FailedPluginDoc, PluginDoc>>> maybeDistDoc =
+                locatePlugins(coordinates)
+                  .map(list ->
+                    list
+                      .filter(c -> c.groupId.startsWith("no.nte.services"))
+                      .map(c -> locateDoc(c).toEither()));
 
-                  Validation<String, List<MavenCoordinates>> pluginCoords =
-                    locatePlugins(coordinates);
-
-                  Validation<String, List<Either<FailedPluginDoc, PluginDoc>>> maybeDistDoc =
-                    pluginCoords
-                      .map(list ->
-                        list
-                          .filter(c->c.groupId.startsWith("no.nte.services"))
-                          .map(c -> locateDoc(c).toEither()));
-
-                  maybeDistDoc.forEach(distributionDoc -> cache.put(mavenCoordinates, distributionDoc));
-                  return maybeDistDoc;
-              }
-          }
+              return
+                pluginLabel.bind(label ->
+                  maybeDistDoc
+                    .map(list -> new HandlerDoc(coordinates.version, label, list)))
+                  .f().map(failMsg -> new FailedHandlerDoc(coordinates.artifactId, coordinates.version, failMsg))
+                  .toEither();
+          })
         );
     }
 
@@ -111,7 +104,7 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
                               String groupId = element.attributeValue("groupId");
                               String artifactId = element.attributeValue("artifactId");
                               String version = element.attributeValue("version");
-                              coords.add(MavenCoordinates.coords(groupId, artifactId, version, "docs", "json"));
+                              coords.add(MavenCoordinates.coords(groupId, artifactId, version, "", ""));
                           }
                       }
                   });
@@ -123,17 +116,41 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
 
     private Validation<FailedPluginDoc, PluginDoc> locateDoc(MavenCoordinates mavenCoordinates) {
 
-        Validation<Exception, String> r =
-          Try.f(resolve(mavenCoordinates))._1();
+        Validation<Exception, String> docsV =
+          Try.f(resolve(mavenCoordinates.withClassifier("docs").withExtension("json")))._1();
+
+        Validation<Exception, Option<String>> pomV =
+          locateLabel(mavenCoordinates);
 
         Validation<Exception, JsonNode> jsonV =
-          r.bind(resp -> Try.f((Try0<JsonNode, Exception>) () -> mapper.readTree(resp))._1());
+          docsV.bind(resp -> Try.f((Try0<JsonNode, Exception>) () -> mapper.readTree(resp))._1());
 
         Validation<Exception, PluginDoc> pluginV =
-          jsonV.map(node -> new PluginDoc(mavenCoordinates.version, mavenCoordinates.artifactId, node));
+          jsonV.bind(node -> pomV.map(label -> new PluginDoc(mavenCoordinates.version, label.orSome(mavenCoordinates.artifactId), node)));
 
-        return pluginV.f().map(ex -> new FailedPluginDoc(mavenCoordinates.artifactId,mavenCoordinates.version,ex.getMessage()));
+        return pluginV.f().map(ex -> new FailedPluginDoc(mavenCoordinates.artifactId, mavenCoordinates.version, ex.getMessage()));
 
+    }
+
+    private Validation<Exception, Option<String>> locateLabel(MavenCoordinates mavenCoordinates) {
+        return
+          Try.f(resolve(mavenCoordinates.withExtension("pom")))._1()
+            .bind(xml ->
+              Try.f((Try0<Document, Exception>) () -> new SAXReader().read(new InputSource(new StringReader(xml))))._1())
+            .map(doc -> {
+                AtomicReference<String> label =
+                  new AtomicReference<>();
+
+                doc.accept(
+                  new VisitorSupport() {
+                      public void visit(Element element) {
+                          if (element.getName().equals("name")) {
+                              label.set(element.getTextTrim());
+                          }
+                      }
+                  });
+                return Option.fromNull(label.get());
+            });
     }
 
 
@@ -158,11 +175,13 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
 
 
     public static DefaultRepositorySystemSession newRepositorySystemSession(RepositorySystem system) {
-        DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
+        DefaultRepositorySystemSession session =
+          MavenRepositorySystemUtils.newSession();
 
-        LocalRepository localRepo = new LocalRepository(localRepoPath.toFile());
+        LocalRepository localRepo =
+          new LocalRepository(localRepoPath.toFile());
+
         session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
-
 
         return session;
     }
@@ -185,18 +204,27 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
 
     public static Try0<String, Exception> resolve(MavenCoordinates coordinates) {
         return () -> {
-            RepositorySystem system = newRepositorySystem();
+            RepositorySystem system =
+              newRepositorySystem();
 
-            RepositorySystemSession session = newRepositorySystemSession(system);
+            RepositorySystemSession session =
+              newRepositorySystemSession(system);
 
             Artifact download =
-              new DefaultArtifact(coordinates.groupId, coordinates.artifactId, coordinates.classifier,coordinates.extension, coordinates.version);
+              new DefaultArtifact(coordinates.groupId, coordinates.artifactId, coordinates.classifier, coordinates.extension, coordinates.version);
 
-            ArtifactRequest artifactRequest = new ArtifactRequest();
+            ArtifactRequest artifactRequest =
+              new ArtifactRequest();
+
             artifactRequest.setArtifact(download);
             artifactRequest.setRepositories(newRepositories(system, session));
-            ArtifactResult artifactResult = system.resolveArtifact(session, artifactRequest);
-            String content = new String(Files.readAllBytes(artifactResult.getArtifact().getFile().toPath()), Charset.forName("UTF-8"));
+
+            ArtifactResult artifactResult =
+              system.resolveArtifact(session, artifactRequest);
+
+            String content =
+              new String(Files.readAllBytes(artifactResult.getArtifact().getFile().toPath()), Charset.forName("UTF-8"));
+
             return content;
         };
     }
@@ -208,17 +236,26 @@ public class MavenDocumentationLocator implements org.kantega.documenter.api.Doc
 
 
     private static synchronized Settings getSettings() throws SettingsBuildingException {
-        SettingsBuildingRequest settingsBuildingRequest = new DefaultSettingsBuildingRequest();
+
+        SettingsBuildingRequest settingsBuildingRequest =
+          new DefaultSettingsBuildingRequest();
+
         settingsBuildingRequest.setSystemProperties(System.getProperties());
         settingsBuildingRequest.setUserSettingsFile(DEFAULT_USER_SETTINGS_FILE);
         settingsBuildingRequest.setGlobalSettingsFile(DEFAULT_GLOBAL_SETTINGS_FILE);
 
-        SettingsBuildingResult settingsBuildingResult;
-        DefaultSettingsBuilderFactory mvnSettingBuilderFactory = new DefaultSettingsBuilderFactory();
-        DefaultSettingsBuilder settingsBuilder = mvnSettingBuilderFactory.newInstance();
-        settingsBuildingResult = settingsBuilder.build(settingsBuildingRequest);
+        DefaultSettingsBuilderFactory mvnSettingBuilderFactory =
+          new DefaultSettingsBuilderFactory();
 
-        Settings effectiveSettings = settingsBuildingResult.getEffectiveSettings();
+        DefaultSettingsBuilder settingsBuilder =
+          mvnSettingBuilderFactory.newInstance();
+
+        SettingsBuildingResult settingsBuildingResult =
+          settingsBuilder.build(settingsBuildingRequest);
+
+        Settings effectiveSettings =
+          settingsBuildingResult.getEffectiveSettings();
+
         return effectiveSettings;
     }
 

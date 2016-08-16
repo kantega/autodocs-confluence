@@ -5,8 +5,8 @@ import org.codehaus.jackson.JsonNode;
 
 public class PluginDoc {
 
-    private final String version;
-    private final String label;
+    public final String version;
+    public final String label;
     public final JsonNode documentRoot;
 
     public PluginDoc(String version, String label, JsonNode documentRoot) {
@@ -29,5 +29,15 @@ public class PluginDoc {
 
     public String getSelectorId(){
         return StringUtils.replace(getId(),".","_");
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("PluginDoc{");
+        sb.append("version='").append(version).append('\'');
+        sb.append(", label='").append(label).append('\'');
+        sb.append(", documentRoot=").append(documentRoot);
+        sb.append('}');
+        return sb.toString();
     }
 }

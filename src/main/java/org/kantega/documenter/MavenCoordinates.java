@@ -38,17 +38,25 @@ public class MavenCoordinates {
         return new MavenCoordinates(resourceName, groupId, artifactId, version, qualifier, extension);
     }
 
-    public static Validation<String, MavenCoordinates> fromString(String str, String qualifier, String extension) {
-        if (StringUtils.isBlank(str)) {
+    public static Validation<String, List<MavenCoordinates>> fromString(
+      String coordsStr,
+      String qualifier,
+      String extension) {
+        if (StringUtils.isBlank(coordsStr)) {
             return Validation.fail("The coordinates are empty");
         }
 
-        String[] parts = StringUtils.split(str, ":");
-        if (parts.length != 3) {
-            return Validation.fail("The coordinates must be written in the format groupId:artifactId:version");
-        }
+        List<Validation<String, MavenCoordinates>> plugins = List.arrayList(StringUtils.split(coordsStr, ",")).map(str -> {
+              String[] parts = StringUtils.split(str, ":");
+              if (parts.length != 3) {
+                  return Validation.fail("The coordinates must be written as a comma separated list with each element in the format groupId:artifactId:version");
+              }
+              return Validation.success(MavenCoordinates.coords(parts[0], parts[1], parts[2], qualifier, extension));
+          }
+        );
 
-        return Validation.success(MavenCoordinates.coords(parts[0], parts[1], parts[2], qualifier, extension));
+
+        return Validation.sequenceNonCumulative(plugins).f().map(l -> l.head());
     }
 
     public List<String> toPath() {
@@ -60,12 +68,18 @@ public class MavenCoordinates {
         return StringUtils.isBlank(classifier) ? resourceName + "." + extension : resourceName + "-" + classifier + "." + extension;
     }
 
-    public MavenCoordinates withQualifier(String qualifier) {
-        return new MavenCoordinates(resourceName, groupId, artifactId, version, qualifier, extension);
+    public MavenCoordinates withClassifier(String classifier) {
+        return new MavenCoordinates(resourceName, groupId, artifactId, version, classifier, extension);
     }
 
-    public String asString(){
-        return groupId+":"+artifactId+":"+extension+":"+classifier+":"+version;
+
+    public MavenCoordinates withExtension(String extension) {
+        return new MavenCoordinates(resourceName, groupId, artifactId, version, classifier, extension);
+    }
+
+
+    public String asString() {
+        return groupId + ":" + artifactId + ":" + extension + ":" + classifier + ":" + version;
     }
 
     @Override
