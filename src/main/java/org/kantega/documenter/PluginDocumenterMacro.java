@@ -149,6 +149,8 @@ public class PluginDocumenterMacro implements Macro {
                     failedDoc -> fragment(H2.b(failedDoc.name), EM.b("Service documentation failed to load")),
                     d ->
                       fragment(
+                        H2.b(d.label),
+                        EM.b(d.version),
                         P.b(fromNull(d.documentRoot.get("pluginDescription")).map(JsonNode::asText).orSome("No desc")),
 
                         H3.b("Avhengigheter"),

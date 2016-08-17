@@ -17,7 +17,7 @@ public class MavenTest {
 
 
         final Validation<String, List<Either<FailedHandlerDoc, HandlerDoc>>> documentationFor =
-          locator.getDocumentationFor("no.nte.distributions.erp:erp-handler:1.8-SNAPSHOT");
+          locator.getDocumentationFor("no.nte.distributions.erp:erp-handler:1.8-SNAPSHOT,no.nte.distributions.api:api-handler-test:1.8-SNAPSHOT");
 
        System.out.println(documentationFor);
 
