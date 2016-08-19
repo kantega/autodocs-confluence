@@ -49,7 +49,7 @@ public class MavenCoordinates {
         List<Validation<String, MavenCoordinates>> plugins = List.arrayList(StringUtils.split(coordsStr, ",")).map(str -> {
               String[] parts = StringUtils.split(str, ":");
               if (parts.length != 3) {
-                  return Validation.fail("The coordinates must be written as a comma separated list with each element in the format groupId:artifactId:version");
+                  return Validation.fail("The coordinates must be written as a comma separated list with each element in the format artifactId:artifactId:version");
               }
               return Validation.success(MavenCoordinates.coords(parts[0], parts[1], parts[2], qualifier, extension));
           }
@@ -88,7 +88,7 @@ public class MavenCoordinates {
           "extension='" + extension + '\'' +
           ", classifier='" + classifier + '\'' +
           ", resourceName='" + resourceName + '\'' +
-          ", groupId='" + groupId + '\'' +
+          ", artifactId='" + groupId + '\'' +
           ", artifactId='" + artifactId + '\'' +
           ", version='" + version + '\'' +
           '}';

@@ -9,7 +9,7 @@ public class PluginDoc {
     public final String label;
     public final JsonNode documentRoot;
 
-    public PluginDoc(String version, String label, JsonNode documentRoot) {
+    public PluginDoc(String label, String version, JsonNode documentRoot) {
         this.version = version;
         this.label = label;
         this.documentRoot = documentRoot;
@@ -19,16 +19,16 @@ public class PluginDoc {
         return version;
     }
 
-    public String getLabel() {
-        return label;
+    public PluginDoc withLabel(String label) {
+        return new PluginDoc(label, version, documentRoot);
     }
 
     public String getId() {
-        return label +"-"+ version;
+        return label + "-" + version;
     }
 
-    public String getSelectorId(){
-        return StringUtils.replace(getId(),".","_");
+    public String getSelectorId() {
+        return StringUtils.replace(getId(), ".", "_");
     }
 
     @Override

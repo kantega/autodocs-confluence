@@ -9,7 +9,7 @@ public class HandlerDoc {
     public final String label;
     public final List<Either<FailedPluginDoc,PluginDoc>> pluginDocs;
 
-    public HandlerDoc(String version, String label, List<Either<FailedPluginDoc,PluginDoc>> pluginDocs) {
+    public HandlerDoc(String label,String version,  List<Either<FailedPluginDoc,PluginDoc>> pluginDocs) {
         this.version = version;
         this.label = label;
         this.pluginDocs = pluginDocs;
